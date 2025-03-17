@@ -10,24 +10,16 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
-sourceSets {
-    main{
-        java {
-            srcDir("/devops/src/main")
-        }
-    }
-}
-
-repositories{
+repositories {
     mavenCentral()
 }
 
 buildscript {
-    dependencies{
+    dependencies {
         classpath("org.postgresql:postgresql:42.7.5")
         classpath("org.flywaydb:flyway-database-postgresql:11.4.0")
     }
@@ -38,18 +30,19 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.flywaydb:flyway-database-postgresql:11.4.0")
     implementation("org.postgresql:postgresql:42.7.5")
+    // https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.4.3")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-tasks.register("getCredential"){
-
 }
 
 flyway {
