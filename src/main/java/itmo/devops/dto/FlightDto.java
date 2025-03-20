@@ -1,25 +1,16 @@
-package itmo.devops.model;
+package itmo.devops.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Data
-@Entity
-@Table(name = "flight_history")
-public class FlightHistory {
+public class FlightDto {
 
-    @SequenceGenerator(name = "flight_history_id_seq")
-    @Id
-    private Long id;
+    private String origin;
 
-    @ManyToOne
-    @JoinColumn(name = "flight_id")
-    private Flight flight;
-
-    private String status;
+    private String destination;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime arrival;

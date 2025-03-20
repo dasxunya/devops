@@ -34,6 +34,8 @@ dependencies {
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
     // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.4.3")
+    implementation("jakarta.validation:jakarta.validation-api:3.1.1")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 

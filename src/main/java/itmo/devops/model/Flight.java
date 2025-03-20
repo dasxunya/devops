@@ -2,6 +2,9 @@ package itmo.devops.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -13,9 +16,13 @@ public class Flight {
     @Id
     private Long id;
 
-    private String number;
-
     private String origin;
 
     private String destination;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private LocalDateTime arrival;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private LocalDateTime departure;
 }
