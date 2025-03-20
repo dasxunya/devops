@@ -1,40 +1,78 @@
 package itmo.devops.controller;
 
+import itmo.devops.dto.DeleteFlightDto;
+import itmo.devops.dto.FlightDto;
 import itmo.devops.error.AppError;
 import itmo.devops.model.Flight;
 import itmo.devops.service.FlightService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
-@RestController("api/v1")
+@RequiredArgsConstructor
+@RestController
 public class FlightController {
 
     private final FlightService flightService;
 
-    @Autowired
-    public FlightController(FlightService flightService) {
-        this.flightService = flightService;
-    }
-
-    @PostMapping(value = "/create-flight")
-    public ResponseEntity<?> create(@RequestBody Flight flight) {
-        if (flight.getId() != null) {
-            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "id is restricted"), HttpStatus.BAD_REQUEST);
-        }
-
+    @PutMapping(value = "/flight")
+    public ResponseEntity<?> create(@RequestBody FlightDto flightDto) {
         try {
-            flightService.createFlight(flight);
+            flightService.create(flightDto);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "error on creating flight"), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/flight")
+    public ResponseEntity<?> delete(@RequestBody DeleteFlightDto dto) {
+        try {
+            flightService.delete(dto.getId());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "error on deleting flight"), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/flight")
+    public ResponseEntity<?> update(@RequestBody Flight flight) {
+        Flight updatedFlight;
+
+        try {
+            updatedFlight = flightService.updateById(flight);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "error on updating flight"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (updatedFlight == null) {
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "no entity found for updating"), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(updatedFlight, HttpStatus.OK);
+    }
+
+    @GetMapping("/flights")
+    public ResponseEntity<?> getAll() {
+        List<Flight> flights;
+
+        try {
+            flights = flightService.findAll();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "error on getting flight"), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(flights, HttpStatus.OK);
     }
 }

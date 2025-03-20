@@ -1,20 +1,12 @@
-package itmo.devops.model;
+package itmo.devops.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Data
-@Entity
-@Table(name = "flight")
-public class Flight {
-
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_id_seq")
-    @SequenceGenerator(name = "flight_id_seq", allocationSize = 1)
-    @Id
-    private Long id;
+public class FlightDto {
 
     private String origin;
 
