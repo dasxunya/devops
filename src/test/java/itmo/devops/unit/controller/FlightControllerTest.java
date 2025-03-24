@@ -20,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static utils.JsonDeserializer.objectToJson;
+import static itmo.devops.utils.JsonDeserializer.objectToJson;
 
 @WebMvcTest(FlightController.class)
 public class FlightControllerTest {
